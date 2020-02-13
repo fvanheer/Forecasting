@@ -1,19 +1,25 @@
 #####################################################################################################################################
 ### FORECAST COMMODITY PRICES ###
 #####################################################################################################################################
-
-import pandas as pd 
+import pandas as pd
+import glob2 as glob
 import numpy as np
 from fbprophet import Prophet
 from fbprophet.plot import add_changepoints_to_plot
 import datetime as dt
-#from model import * #reference holidays variable to concat all special events
 
 #####################################################################################################################################
-### ... ###
+### IMPORT DATA ###
 #####################################################################################################################################
+path = r'data' # folder path
+all_files = glob.glob(path + "/*.csv")
 
-df = pd.read_csv('data/.csv')
+li = []
+for filename in all_files:
+    df = pd.read_csv(filename, index_col=None, header=0)
+    li.append(df)
+
+df = pd.concat(li, axis=0, ignore_index=True)
 
 #####################################################################################################################################
 ### Calculate the forecast data (failing check model from scratch) ###

@@ -16,6 +16,7 @@ pip install -r requirements.txt
 or pip install 
 ```
 pandas
+glob2
 numpy
 fbprophet
 ```
