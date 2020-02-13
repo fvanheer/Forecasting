@@ -1,19 +1,32 @@
 # Commodity Price Forecasting
 
-Forecasting is such an essential part of business and everyday life. It is in your weather app and your business plan. I did some research and discovered that Facebook open sourced their time series forecasting model Prophet (more info here -> https://facebook.github.io/prophet/docs/quick_start.html#python-api)
+Forecasting is such an essential part of business and everyday life. It is in your weather app and your business plan. I did some research and discovered that Facebook open sourced their time series forecasting model Prophet.
 
 ## Getting Started
 
-[prophet installation guide] -> https://facebook.github.io/prophet/docs/installation.html
+* [Python 3.7](https://www.python.org/downloads/release/python-370/) - More info
+* [prophet installation guide](https://facebook.github.io/prophet/docs/installation.html) - More Info 
 
-setup the virtual env (I use anaconda to manage my environments)
-python 3.7
+### Libraries to install 
 
-### Install Dependencies
-
+```
 pip install -r requirements.txt
+```
 
+or pip install 
+```
+pandas
+numpy
+fbprophet
+```
 ### Download the data
 
-Kaggle Dataset you can find here -> https://www.kaggle.com/samextensibleenergy/agricultural-commodity-dataset 
+* [Corn & Soybean Prices 2008-2017](https://www.kaggle.com/ainslie/usda-wasde-monthly-corn-soybean-projections#USDAProj_Soybean_2015to2016.csv)
 
+## Author
+
+* **Francois van Heerden** - *Experience* - [LinkedIn Profile](https://www.linkedin.com/in/francois-van-heerden-9589825a/)
+
+## Acknowledgments
+
+* Found inspiration from multiple fellow Data Scientists in the open source community
