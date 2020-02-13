@@ -23,6 +23,30 @@ fbprophet
 
 * [Corn & Soybean Prices 2008-2017](https://www.kaggle.com/ainslie/usda-wasde-monthly-corn-soybean-projections#USDAProj_Soybean_2015to2016.csv)
 
+### The Model
+
+You can find the code in the model model.py file
+
+## Import the libraries and data
+
+```Python
+import pandas as pd 
+import numpy as np
+from fbprophet import Prophet
+from fbprophet.plot import add_changepoints_to_plot
+import datetime as dt
+```
+
+```Python
+
+```
+
+## Functions
+
+```Python
+
+```
+
 ## Author
 
 * **Francois van Heerden** - *Experience* - [LinkedIn Profile](https://www.linkedin.com/in/francois-van-heerden-9589825a/)
