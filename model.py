@@ -108,7 +108,7 @@ final_df = forecast[['ds','yhat','yhat_lower','yhat_upper']].rename(
 final_df = pd.merge(final_df, df)
 final_df = final_df[final_df['Date']>='1988-01-01']
 
-#plot the daily minimum temperatures
+#plot the daily minimum temperatures - Interactive plot
 import plotly.graph_objects as go
 
 fig = go.Figure()

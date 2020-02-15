@@ -1,4 +1,4 @@
-# Daily minimum temperatures Forecasting
+# Daily Minimum Temperatures Forecasting
 
 Forecasting is such an essential part of business and everyday life. It is in your weather app and your business plan. I did some research and discovered that Facebook open sourced their time series forecasting model Prophet. [Read More](https://facebook.github.io/prophet/)
 
@@ -121,6 +121,7 @@ py.init_notebook_mode()
 fig = plot_plotly(m, forecast)  # This returns a plotly Figure - interactive plot - use the date slider at the bottom
 py.iplot(fig)
 ```
+![Forecast Trend](images/forecast_trend_interactive.png)
 #### Run diagnostics on the first model
 
 ```Python
@@ -166,7 +167,7 @@ final_df = forecast[['ds','yhat','yhat_lower','yhat_upper']].rename(
     columns={'ds':'Date','yhat':'Daily minimum temperatures'}
 )
 
-#plot the daily minimum temperatures
+#plot the daily minimum temperatures - Interactive plot
 import plotly.graph_objects as go
 
 fig = go.Figure()
