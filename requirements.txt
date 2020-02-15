@@ -2,3 +2,4 @@ pandas
 glob
 numpy
 fbprophet
+plotly
