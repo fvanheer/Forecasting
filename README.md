@@ -141,7 +141,7 @@ fig = plot_cross_validation_metric(df_cv, metric='mape')
 ```
 ![Cross Validation](images/cross_validation.png)
 #### Adjust seasonality and re-forecast
-
+[More info on Fourier](https://en.wikipedia.org/wiki/Fourier_series#/media/File:Fourier_Series.svg)
 ```Python
 #####################################################################################################################################
 ### ADJUST & RE-FORECAST ###
