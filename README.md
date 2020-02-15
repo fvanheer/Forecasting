@@ -35,7 +35,6 @@ conda install -c conda-forge fbprophet
 You can find the code in the model model.py file
 
 #### Import the libraries and data
-
 ```Python
 import pandas as pd
 import glob2 as glob
@@ -67,7 +66,6 @@ fig = px.line(df, x='Date', y='Daily minimum temperatures')
 fig.show()
 ```
 ![Min Temp Plot](images/min_temp_trend.png)
-
 #### Fit and Review Model
 
 Prophet requires a specific format of data and column names to passed, in order to fit. The model is set to default for the first round of assessment. When working with timeseries data it is important to understand trend and seasonality. This can be broken down by decomposing the timeseries dataset. 
@@ -108,7 +106,7 @@ fig1 = m.plot(forecast)
 ```
 ![Forecast Plot 1](images/forecast_plot_1.png)
 
-Temperatures obviously have a yearly seasonality linked to the seasons. The specific dataset is from Melbourne (Australia), which is in the Southern hemisphere. Meaning that it will be warmer between September to March the following year. This is displayed in the yearly trend breakdown in the figure below. 
+Temperatures obviously have a yearly seasonality linked to the seasons (winter,summer,etc.). The specific dataset is from Melbourne (Australia), which is in the Southern hemisphere. Meaning that it will be colder between April and August. This is displayed in the yearly trend breakdown in the figure below. This means we should have 180 horizons in the data.
 ```Python
 #plot decomposition of seasonality and trends
 fig2 = m.plot_components(forecast)
@@ -123,7 +121,6 @@ py.init_notebook_mode()
 fig = plot_plotly(m, forecast)  # This returns a plotly Figure - interactive plot - use the date slider at the bottom
 py.iplot(fig)
 ```
-
 #### Run diagnostics on the first model
 
 ```Python
@@ -141,6 +138,7 @@ from fbprophet.plot import plot_cross_validation_metric
 fig = plot_cross_validation_metric(df_cv, metric='mape')
 
 ```
+![Cross Validation](images/cross_validation.png)
 #### Adjust seasonality and re-forecast
 
 ```Python

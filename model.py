@@ -93,7 +93,7 @@ a = plot_yearly(m)
 
 #Specifying Custom Seasonalities
 m = Prophet(weekly_seasonality=False)
-m.add_seasonality(name='monthly', period=30.5, fourier_order=20)
+m.add_seasonality(name='yearly', period=6, fourier_order=20)
 forecast = m.fit(forecast_training).predict(future)
 fig = m.plot_components(forecast)
 
