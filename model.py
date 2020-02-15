@@ -9,7 +9,6 @@ from fbprophet.plot import add_changepoints_to_plot
 from fbprophet.plot import plot_plotly
 import plotly.express as px
 import plotly.offline as py
-import datetime as dt
 
 #####################################################################################################################################
 ### IMPORT DATA ###
@@ -17,19 +16,20 @@ import datetime as dt
 df = pd.read_csv('temp_data.csv')
 
 #convert string to date format
-df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
+df['Date'] = pd.to_datetime(df['Date'])
 df['Daily minimum temperatures'] = df['Daily minimum temperatures'].map(lambda x: x.lstrip('?'))
 df['Daily minimum temperatures'] = df['Daily minimum temperatures'].astype(float)
 
 #####################################################################################################################################
 ### REVIEW THE TIMESERIES DATA ###
 #####################################################################################################################################
-#plot the yield of US Soybean crop
+
+#plot the daily minimum temperatures
 fig = px.line(df, x='Date', y='Daily minimum temperatures')
 fig.show()
 
 #####################################################################################################################################
-### Train the Model ###
+### Fit the Model ###
 #####################################################################################################################################
 
 #format the data to required format for the library {Date: 'DS', Variable: 'Y'}
@@ -75,7 +75,7 @@ py.iplot(fig)
 
 #run cross validation
 from fbprophet.diagnostics import cross_validation
-df_cv = cross_validation(m, initial='720 days', period='180 days', horizon = '365 days')
+df_cv = cross_validation(m, initial='720 days', period='180 days', horizon = '180 days')
 df_cv.head()
 
 #plot cross validation absolute percent error for forecast
@@ -86,12 +86,39 @@ fig = plot_cross_validation_metric(df_cv, metric='mape')
 ### ADJUST & RE-FORECAST ###
 #####################################################################################################################################
 
-#handle outliers
+#Fourier Order for Seasonalities
+from fbprophet.plot import plot_yearly
+m = Prophet(yearly_seasonality=20).fit(forecast_training)
+a = plot_yearly(m)
 
-
-
+#Specifying Custom Seasonalities
+m = Prophet(weekly_seasonality=False)
+m.add_seasonality(name='monthly', period=30.5, fourier_order=20)
+forecast = m.fit(forecast_training).predict(future)
+fig = m.plot_components(forecast)
 
 #####################################################################################################################################
-###  ###
+###  FINAL FORECAST ###
 #####################################################################################################################################
+
+final_df = forecast[['ds','yhat','yhat_lower','yhat_upper']].rename(
+    columns={'ds':'Date','yhat':'Daily minimum temperatures'}
+)
+
+#plot the daily minimum temperatures
+import plotly.graph_objects as go
+
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=final_df.Date, y=final_df['yhat_upper'], name="Upper",
+                         line_color='deepskyblue'))
+
+fig.add_trace(go.Scatter(x=final_df.Date, y=final_df['yhat_lower'], name="Lower",
+                         line_color='dimgray'))
+
+fig.add_trace(go.Scatter(x=final_df.Date, y=final_df['Daily minimum temperatures'], name="Daily minimum temperatures",
+                         line_color='black'))
+
+fig.update_layout(title_text='Daily minimum temperatures',
+                  xaxis_rangeslider_visible=True)
+fig.show()
 
