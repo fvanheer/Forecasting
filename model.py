@@ -17,7 +17,7 @@ import datetime as dt
 df = pd.read_csv('temp_data.csv')
 
 #convert string to date format
-df['Date'] = pd.to_datetime(df['Date'])
+df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
 df['Daily minimum temperatures'] = df['Daily minimum temperatures'].map(lambda x: x.lstrip('?'))
 df['Daily minimum temperatures'] = df['Daily minimum temperatures'].astype(float)
 
@@ -35,6 +35,9 @@ fig.show()
 #format the data to required format for the library {Date: 'DS', Variable: 'Y'}
 df = df.rename(columns={'Date':'ds', 'Daily minimum temperatures': 'y'})
 forecast_training = df[['ds','y']]
+forecast_training['y'] = np.where(
+    forecast_training['y'] == 0, 0.1, forecast_training['y']
+)
 
 #fit model
 m = Prophet()
@@ -67,13 +70,26 @@ fig = plot_plotly(m, forecast)  # This returns a plotly Figure - interactive plo
 py.iplot(fig)
 
 #####################################################################################################################################
-### REVIEW MODEL ERROR ###
+### RUN DIAGNOSTICS ###
 #####################################################################################################################################
 
+#run cross validation
+from fbprophet.diagnostics import cross_validation
+df_cv = cross_validation(m, initial='720 days', period='180 days', horizon = '365 days')
+df_cv.head()
+
+#plot cross validation absolute percent error for forecast
+from fbprophet.plot import plot_cross_validation_metric
+fig = plot_cross_validation_metric(df_cv, metric='mape')
 
 #####################################################################################################################################
-### ADJUST - REFORECAST ###
+### ADJUST & RE-FORECAST ###
 #####################################################################################################################################
+
+#handle outliers
+
+
+
 
 #####################################################################################################################################
 ###  ###
