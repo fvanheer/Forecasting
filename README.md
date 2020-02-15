@@ -1,4 +1,4 @@
-# Commodity Price Forecasting
+# Daily minimum temperatures Forecasting
 
 Forecasting is such an essential part of business and everyday life. It is in your weather app and your business plan. I did some research and discovered that Facebook open sourced their time series forecasting model Prophet. [Read More](https://facebook.github.io/prophet/)
 
