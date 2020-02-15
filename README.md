@@ -46,7 +46,7 @@ from fbprophet.plot import plot_plotly
 import plotly.express as px
 import plotly.offline as py
 ```
-
+The data requires some very basic preprocessing, including formatting and dtype changes. 
 ```Python
 #####################################################################################################################################
 ### IMPORT DATA ###
@@ -70,6 +70,8 @@ fig.show()
 
 #### Fit and Review Model
 
+Prophet requires a specific format of data and column names to passed, in order to fit. The model is set to default for the first round of assessment. When working with timeseries data it is important to understand trend and seasonality. This can be broken down by decomposing the timeseries dataset. 
+
 ```Python
 #####################################################################################################################################
 ### Fit the Model ###
@@ -80,7 +82,7 @@ df = df.rename(columns={'Date':'ds', 'Daily minimum temperatures': 'y'})
 forecast_training = df[['ds','y']]
 forecast_training['y'] = np.where(
     forecast_training['y'] == 0, 0.1, forecast_training['y']
-)
+) #remove 0 values - otherwise it isn't possible to cross validate the model
 
 #fit model
 m = Prophet()
@@ -103,20 +105,25 @@ forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
 #plot the forecast
 fig1 = m.plot(forecast)
 
+```
+![Forecast Plot 1](images/forecast_plot_1.png)
+
+```Python
 #plot decomposition of seasonality and trends
 fig2 = m.plot_components(forecast)
 
+```
+![Trend Decomp 1](images/trend_decomp.png)
+
+```Python
 #Interactive plots
 py.init_notebook_mode()
 
 fig = plot_plotly(m, forecast)  # This returns a plotly Figure - interactive plot - use the date slider at the bottom
 py.iplot(fig)
 ```
-![Forecast Plot 1](images/forecast_plot_1.png)
 
-![Trend Decomp 1](images/trend_decomp.png)
-
-#### Run diagnostics on the first round model
+#### Run diagnostics on the first model
 
 ```Python
 #####################################################################################################################################
@@ -151,7 +158,6 @@ m.add_seasonality(name='monthly', period=30.5, fourier_order=20)
 forecast = m.fit(forecast_training).predict(future)
 fig = m.plot_components(forecast)
 ```
-
 ![Decomp 2](images/decomp2.png)
 
 #### Final Forecast DataFrame

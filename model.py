@@ -37,7 +37,7 @@ df = df.rename(columns={'Date':'ds', 'Daily minimum temperatures': 'y'})
 forecast_training = df[['ds','y']]
 forecast_training['y'] = np.where(
     forecast_training['y'] == 0, 0.1, forecast_training['y']
-)
+) #remove 0 values - otherwise it isn't possible to cross validate the model
 
 #fit model
 m = Prophet()
@@ -102,23 +102,22 @@ fig = m.plot_components(forecast)
 #####################################################################################################################################
 
 final_df = forecast[['ds','yhat','yhat_lower','yhat_upper']].rename(
-    columns={'ds':'Date','yhat':'Daily minimum temperatures'}
+    columns={'ds':'Date','yhat':'forecast'}
 )
+
+final_df = pd.merge(final_df, df)
+final_df = final_df[final_df['Date']>='1988-01-01']
 
 #plot the daily minimum temperatures
 import plotly.graph_objects as go
 
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=final_df.Date, y=final_df['yhat_upper'], name="Upper",
-                         line_color='deepskyblue'))
+fig.add_trace(go.Scatter(x=final_df.Date, y=final_df['forecast'], name="forecast",
+                         line_color='red'))
 
-fig.add_trace(go.Scatter(x=final_df.Date, y=final_df['yhat_lower'], name="Lower",
+fig.add_trace(go.Scatter(x=final_df.Date, y=final_df['Daily minimum temperatures'], name="history",
                          line_color='dimgray'))
-
-fig.add_trace(go.Scatter(x=final_df.Date, y=final_df['Daily minimum temperatures'], name="Daily minimum temperatures",
-                         line_color='black'))
 
 fig.update_layout(title_text='Daily minimum temperatures',
                   xaxis_rangeslider_visible=True)
 fig.show()
-
