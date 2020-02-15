@@ -53,6 +53,9 @@ import datetime as dt
 ```Python
 
 ```
+![Forecast Plot 1](images/forecast_plot_1.pdf)
+
+![Trend Decomp 1](images/trend_decomp.pdf)
 
 ## Author
 

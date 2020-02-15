@@ -18,6 +18,8 @@ df = pd.read_csv('temp_data.csv')
 
 #convert string to date format
 df['Date'] = pd.to_datetime(df['Date'])
+df['Daily minimum temperatures'] = df['Daily minimum temperatures'].map(lambda x: x.lstrip('?'))
+df['Daily minimum temperatures'] = df['Daily minimum temperatures'].astype(float)
 
 #####################################################################################################################################
 ### REVIEW THE TIMESERIES DATA ###
@@ -31,8 +33,8 @@ fig.show()
 #####################################################################################################################################
 
 #format the data to required format for the library {Date: 'DS', Variable: 'Y'}
-df = df.rename(columns={'Date':'ds', 'Daily minimum temperatures': 'Y'})
-forecast_training = df[['ds','Y']]
+df = df.rename(columns={'Date':'ds', 'Daily minimum temperatures': 'y'})
+forecast_training = df[['ds','y']]
 
 #fit model
 m = Prophet()
@@ -43,7 +45,7 @@ m.fit(forecast_training)
 #####################################################################################################################################
 
 future = m.make_future_dataframe(periods=365)
-future.tail()
+future.tail() #tail end of the data
 
 forecast = m.predict(future)
 forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
@@ -61,15 +63,19 @@ fig2 = m.plot_components(forecast)
 #Interactive plots
 py.init_notebook_mode()
 
-fig = plot_plotly(m, forecast)  # This returns a plotly Figure
+fig = plot_plotly(m, forecast)  # This returns a plotly Figure - interactive plot - use the date slider at the bottom
 py.iplot(fig)
 
+#####################################################################################################################################
+### REVIEW MODEL ERROR ###
+#####################################################################################################################################
+
 
 #####################################################################################################################################
-### ... ###
+### ADJUST - REFORECAST ###
 #####################################################################################################################################
 
+#####################################################################################################################################
+###  ###
+#####################################################################################################################################
 
-#####################################################################################################################################
-### ... ###
-#####################################################################################################################################
