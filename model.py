@@ -31,7 +31,6 @@ fig.show()
 #####################################################################################################################################
 ### Fit the Model ###
 #####################################################################################################################################
-
 #format the data to required format for the library {Date: 'DS', Variable: 'Y'}
 df = df.rename(columns={'Date':'ds', 'Daily minimum temperatures': 'y'})
 forecast_training = df[['ds','y']]
@@ -46,7 +45,6 @@ m.fit(forecast_training)
 #####################################################################################################################################
 ### Prediction incl. Parameters ###
 #####################################################################################################################################
-
 future = m.make_future_dataframe(periods=365)
 future.tail() #tail end of the data
 
@@ -56,14 +54,13 @@ forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
 #####################################################################################################################################
 ### REVIEW MODEL PERFORMANCE ###
 #####################################################################################################################################
-
 #plot the forecast
 fig1 = m.plot(forecast)
 
 #plot decomposition of seasonality and trends
 fig2 = m.plot_components(forecast)
 
-#Interactive plots
+#Let's take a closer look
 py.init_notebook_mode()
 
 fig = plot_plotly(m, forecast)  # This returns a plotly Figure - interactive plot - use the date slider at the bottom
@@ -88,12 +85,12 @@ fig = plot_cross_validation_metric(df_cv, metric='mape')
 
 #Fourier Order for Seasonalities
 from fbprophet.plot import plot_yearly
-m = Prophet(yearly_seasonality=20).fit(forecast_training)
+m = Prophet(yearly_seasonality=8).fit(forecast_training)
 a = plot_yearly(m)
 
-#Specifying Custom Seasonalities
+#Specifying Custom Seasonalities - Update forecast parameters
 m = Prophet(weekly_seasonality=False)
-m.add_seasonality(name='yearly', period=6, fourier_order=20)
+m.add_seasonality(name='yearly', period=365, fourier_order=8)
 forecast = m.fit(forecast_training).predict(future)
 fig = m.plot_components(forecast)
 

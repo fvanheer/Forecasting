@@ -115,13 +115,13 @@ fig2 = m.plot_components(forecast)
 ![Trend Decomp 1](images/trend_decomp.png)
 
 ```Python
-#Interactive plots
+#Let's take a closer look
 py.init_notebook_mode()
 
 fig = plot_plotly(m, forecast)  # This returns a plotly Figure - interactive plot - use the date slider at the bottom
 py.iplot(fig)
 ```
-![Forecast Trend](images/forecast_trend_interactive.png)
+![Forecast Trend](images/filter_data_trend.png)
 #### Run diagnostics on the first model
 
 ```Python
@@ -151,10 +151,12 @@ fig = plot_cross_validation_metric(df_cv, metric='mape')
 from fbprophet.plot import plot_yearly
 m = Prophet(yearly_seasonality=20).fit(forecast_training)
 a = plot_yearly(m)
-
-#Specifying Custom Seasonalities
+```
+![Yearly Seasonality](images/yearly_seasonality.png)
+```Python
+#Specifying Custom Seasonalities - Update forecast parameters
 m = Prophet(weekly_seasonality=False)
-m.add_seasonality(name='monthly', period=30.5, fourier_order=20)
+m.add_seasonality(name='yearly', period=365, fourier_order=8)
 forecast = m.fit(forecast_training).predict(future)
 fig = m.plot_components(forecast)
 ```
