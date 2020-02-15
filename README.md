@@ -108,6 +108,7 @@ fig1 = m.plot(forecast)
 ```
 ![Forecast Plot 1](images/forecast_plot_1.png)
 
+Temperatures obviously have a yearly seasonality linked to the seasons. The specific dataset is from Melbourne (Australia), which is in the Southern hemisphere. Meaning that it will be warmer between September to March the following year. This is displayed in the yearly trend breakdown in the figure below. 
 ```Python
 #plot decomposition of seasonality and trends
 fig2 = m.plot_components(forecast)
