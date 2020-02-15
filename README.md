@@ -47,7 +47,7 @@ import datetime as dt
 ```Python
 
 ```
-![Min Temp Plot]('https://github.com/fvanheer/Forecasting/blob/master/images/min_temp_trend.png')
+![Min Temp Plot](images/min_temp_trend.png)
 ## Functions
 
 ```Python
